@@ -1,0 +1,11 @@
+on right click on a item frame:
+	if event-player don't have the permission "itemframeprotecter.admin":
+		cancel the event
+
+on damage of a item frame:
+	if attacker don't have the permission "itemframeprotecter.admin":
+		cancel the event
+
+on right click on a armour stand:
+	if event-player don't have the permission "itemframeprotecter.admin":
+		cancel the event

@@ -1,0 +1,349 @@
+command /dynamicskill update:
+	permission: dynamicskill.use
+	trigger:
+		set {_player} to event-player
+		set {_lore::*} to lore of {_player}'s tool split at "||"
+		loop {_lore::*}:
+			set {_lore} to loop-value
+			set {_lore} to uncoloured {_lore}
+			if {_lore} contains "餀Skill: ":
+				set {_l-skill::*} to {_lore} parsed as "%text%: %text%"
+			else:
+				set {_l-skill::1} to "餀Skill: "
+				set {_l-skill::2} to "No Skill"
+			if {_lore} contains "餁Skill: ":
+				set {_r-skill::*} to {_lore} parsed as "%text%: %text%"
+			else:
+				set {_r-skill::1} to "餁Skill: "
+				set {_r-skill::2} to "No Skill"
+			if {_lore} contains "餂+餀Skill: ":
+				set {_sl-skill::*} to {_lore} parsed as "%text%: %text%"
+			else:
+				set {_sl-skill::1} to "餂+餀Skill: "
+				set {_sl-skill::2} to "No Skill"
+			if {_lore} contains "餂+餁Skill: ":
+				set {_sr-skill::*} to {_lore} parsed as "%text%: %text%"
+			else:
+				set {_sr-skill::1} to "餂+餁Skill: "
+				set {_sr-skill::2} to "No Skill"
+
+		message "&c餀Skill: %{_l-skill::2}%"
+		message "&c餁Skill: %{_r-skill::2}%"
+		message "&c餂+餀Skill: %{_sl-skill::2}%"
+		message "&c餂+餁Skill: %{_sR-skill::2}%"
+
+command /skill:
+	permission: dynamicskill.use
+	trigger:
+		set {_player} to event-player
+		if {_player}'s tool isn't empty:
+			open virtual chest inventory with size 1 named "&cSkill" to {_player}
+			
+			format a gui slot 0 of {_player} with {_player}'s tool
+			
+			set {_tool} to {_player}'s tool
+			
+			set {_lore::*} to lore of {_tool} split at "||"
+			loop {_lore::*}:
+				set {_lore} to loop-value
+				set {_lore} to uncoloured {_lore}
+				set {_lore2::*} to {_lore} split at ":"
+				if {_lore2::1} is equal to "餀Skill":
+					set {_l-skill::*} to {_lore} parsed as "%text%: %text%"
+					add 1 to {_maxskillcount}
+				if {_lore2::1} is equal to "餁Skill":
+					set {_r-skill::*} to {_lore} parsed as "%text%: %text%"
+					add 1 to {_maxskillcount}
+				if {_lore2::1} is equal to "餂+餀Skill":
+					set {_sl-skill::*} to {_lore} parsed as "%text%: %text%"
+					add 1 to {_maxskillcount}
+				if {_lore2::1} is equal to "餂+餁Skill":
+					set {_sr-skill::*} to {_lore} parsed as "%text%: %text%"
+					add 1 to {_maxskillcount}
+			
+			if {_l-skill::*} isn't set:
+				set {_l-skill::1} to "餀Skill: "
+				set {_l-skill::2} to "No Skill"
+			if {_r-skill::*} isn't set:
+				set {_r-skill::1} to "餁Skill: "
+				set {_r-skill::2} to "No Skill"
+			if {_sl-skill::*} isn't set:
+				set {_sl-skill::1} to "餂+餀Skill: "
+				set {_sl-skill::2} to "No Skill"
+			if {_sr-skill::*} isn't set:
+				set {_sr-skill::1} to "餂+餁Skill: "
+				set {_sr-skill::2} to "No Skill"
+
+			set {_l-skill} to {_l-skill::2}
+			set {_r-skill} to {_r-skill::2}
+			set {_sl-skill} to {_sl-skill::2}
+			set {_sr-skill} to {_sr-skill::2}
+			
+			if {_l-skill::2} isn't "No Skill":
+				set {_l-skill-item} to rose red named "&6%{_l-skill}%"
+				set the line 1 of {_l-skill-item}'s lore to "&7- Skill Item"
+				add 1 to {_skillcount}
+			else:
+				set {_l-skill-item} to gray dye named "&c%{_l-skill}%"
+				set the line 1 of {_l-skill-item}'s lore to "&7- Skill Item"
+			if {_r-skill::2} isn't "No Skill":
+				set {_r-skill-item} to cyan dye named "&6%{_r-skill}%"
+				set the line 1 of {_r-skill-item}'s lore to "&7- Skill Item"
+				add 1 to {_skillcount}
+			else:
+				set {_r-skill-item} to gray dye named "&c%{_r-skill}%"
+				set the line 1 of {_r-skill-item}'s lore to "&7- Skill Item"
+			if {_sl-skill::2} isn't "No Skill":
+				set {_sl-skill-item} to light gray dye named "&6%{_sl-skill}%"
+				set the line 1 of {_sl-skill-item}'s lore to "&7- Skill Item"
+				add 1 to {_skillcount}
+			else:
+				set {_sl-skill-item} to gray dye named "&c%{_sl-skill}%"
+				set the line 1 of {_sl-skill-item}'s lore to "&7- Skill Item"
+			if {_sr-skill::2} isn't "No Skill":
+				set {_sr-skill-item} to orange dye named "&6%{_sr-skill}%"
+				set the line 1 of {_sr-skill-item}'s lore to "&7- Skill Item"
+				add 1 to {_skillcount}
+			else:
+				set {_sr-skill-item} to gray dye named "&c%{_sr-skill}%"
+				set the line 1 of {_sr-skill-item}'s lore to "&7- Skill Item"
+			
+			set {_switchskill} to anvil named "&6Switch Skill"
+			set {_changeskill} to enchantment table named "&6Change Skill"
+			set {_return} to barrier named "&6Return"
+			
+			format a gui slot 1 of {_player} with {_l-skill-item} 
+			format a gui slot 2 of {_player} with {_r-skill-item}
+			format a gui slot 3 of {_player} with {_sl-skill-item}
+			format a gui slot 4 of {_player} with {_sr-skill-item}
+			format a gui slot 6 of {_player} with {_switchskill} to run function swtichskill({_player},{_tool},{_l-skill-item},{_r-skill-item},{_sl-skill-item},{_sr-skill-item})
+			format a gui slot 7 of {_player} with {_changeskill} to run function changeskill({_player},{_skillcount},{_maxskillcount},{_tool},{_l-skill-item},{_r-skill-item},{_sl-skill-item},{_sr-skill-item})
+			format a gui slot 8 of {_player} with {_return} to run player command "skill" with permission "dynamicskill.use"
+
+function changeskill(player:Player,skillcount:Number,maxskillcount:Number,tool:Item,l-skill-item:Item,r-skill-item:Item,sl-skill-item:Item,sr-skill-item:Item):
+	set {_switchskill} to anvil named "&6Switch Skill"
+	set {_changeskill} to enchantment table named "&6Change Skill"
+	set {_changeskill} to {_changeskill} with hidden enchantment
+	unformat the gui slot 1 of {_player}
+	unformat the gui slot 2 of {_player}
+	unformat the gui slot 3 of {_player}
+	unformat the gui slot 4 of {_player}
+	unformat the gui slot 6 of {_player}
+	format a gui slot 6 of {_player} with {_switchskill}
+	format a gui slot 7 of {_player} with {_changeskill}
+	if {_skillcount} >= {_maxskillcount}:
+		if uncoloured {_l-skill-item}'s name is "No Skill":
+			set {_l-skill-item} to barrier named "&cNo Skill Slot"
+		if uncoloured {_r-skill-item}'s name is "No Skill":
+			set {_r-skill-item} to barrier named "&cNo Skill Slot"
+		if uncoloured {_sl-skill-item}'s name is "No Skill":
+			set {_sl-skill-item} to barrier named "&cNo Skill Slot"
+		if uncoloured {_sr-skill-item}'s name is "No Skill":
+			set {_sr-skill-item} to barrier named "&cNo Skill Slot"
+	format a gui slot 1 of {_player} with {_l-skill-item}
+	format a gui slot 2 of {_player} with {_r-skill-item}
+	format a gui slot 3 of {_player} with {_sl-skill-item}
+	format a gui slot 4 of {_player} with {_sr-skill-item}
+	
+function swtichskill(player:Player,tool:Item,l-skill-item:Item,r-skill-item:Item,sl-skill-item:Item,sr-skill-item:Item):
+	set {_switchskill} to anvil named "&6Switch Skill"
+	set {_changeskill} to enchantment table named "&6Change Skill"
+	set {_switchskill} to {_switchskill} with hidden enchantment
+	unformat the gui slot 1 of {_player}
+	unformat the gui slot 2 of {_player}
+	unformat the gui slot 3 of {_player}
+	unformat the gui slot 4 of {_player}
+	unformat the gui slot 6 of {_player}
+	format a gui slot 6 of {_player} with {_switchskill}
+	format a gui slot 7 of {_player} with {_changeskill}
+	format a gui slot 1 of {_player} with {_l-skill-item} to run function getItem({_player},{_tool},{_l-skill-item},1,{_l-skill-item},{_r-skill-item},{_sl-skill-item},{_sr-skill-item})
+	format a gui slot 2 of {_player} with {_r-skill-item} to run function getItem({_player},{_tool},{_r-skill-item},2,{_l-skill-item},{_r-skill-item},{_sl-skill-item},{_sr-skill-item})
+	format a gui slot 3 of {_player} with {_sl-skill-item} to run function getItem({_player},{_tool},{_sl-skill-item},3,{_l-skill-item},{_r-skill-item},{_sl-skill-item},{_sr-skill-item})
+	format a gui slot 4 of {_player} with {_sr-skill-item} to run function getItem({_player},{_tool},{_sr-skill-item},4,{_l-skill-item},{_r-skill-item},{_sl-skill-item},{_sr-skill-item})
+
+function getItem(player:Player,tool:Item,item:Item,switchid:Number,l-skill-item:Item,r-skill-item:Item,sl-skill-item:Item,sr-skill-item:Item):
+	unformat the gui slot 1 of {_player}
+	unformat the gui slot 2 of {_player}
+	unformat the gui slot 3 of {_player}
+	unformat the gui slot 4 of {_player}
+	if {_switchid} is 1:
+		set {_l-skill-item} to {_l-skill-item} with hidden enchantment
+	if {_switchid} is 2:
+		set {_r-skill-item} to {_r-skill-item} with hidden enchantment
+	if {_switchid} is 3:
+		set {_sl-skill-item} to {_sl-skill-item} with hidden enchantment
+	if {_switchid} is 4:
+		set {_sr-skill-item} to {_sr-skill-item} with hidden enchantment
+	format a gui slot 1 of {_player} with {_l-skill-item} to run function confrimswitchskill({_player},{_tool},{_item},{_switchid},1,{_l-skill-item},{_r-skill-item},{_sl-skill-item},{_sr-skill-item})
+	format a gui slot 2 of {_player} with {_r-skill-item} to run function confrimswitchskill({_player},{_tool},{_item},{_switchid},2,{_l-skill-item},{_r-skill-item},{_sl-skill-item},{_sr-skill-item})
+	format a gui slot 3 of {_player} with {_sl-skill-item} to run function confrimswitchskill({_player},{_tool},{_item},{_switchid},3,{_l-skill-item},{_r-skill-item},{_sl-skill-item},{_sr-skill-item})
+	format a gui slot 4 of {_player} with {_sr-skill-item} to run function confrimswitchskill({_player},{_tool},{_item},{_switchid},4,{_l-skill-item},{_r-skill-item},{_sl-skill-item},{_sr-skill-item})
+
+function confrimswitchskill(player:Player,tool:Item,item:Item,switchid:Number,confrimid:Number,l-skill-item:Item,r-skill-item:Item,sl-skill-item:Item,sr-skill-item:Item):
+	unformat the gui slot 1 of {_player}
+	unformat the gui slot 2 of {_player}
+	unformat the gui slot 3 of {_player}
+	unformat the gui slot 4 of {_player}
+	set {_lore::*} to lore of {_tool} split at "||"
+	set {_loreline} to 1
+	loop {_lore::*}:
+		set {_lore} to loop-value
+		set {_lore} to uncoloured {_lore}
+		set {_lore2::*} to {_lore} split at ":"
+		if {_lore2::1} is equal to "餀Skill":
+			set {_l-skill::*} to {_lore} parsed as "%text%: %text%"
+			set {_l-skillline} to {_loreline}
+		if {_lore2::1} is equal to "餁Skill":
+			set {_r-skill::*} to {_lore} parsed as "%text%: %text%"
+			set {_r-skillline} to {_loreline}
+		if {_lore2::1} is equal to "餂+餀Skill":
+			set {_sl-skill::*} to {_lore} parsed as "%text%: %text%"
+			set {_sl-skillline} to {_loreline}
+		if {_lore2::1} is equal to "餂+餁Skill":
+			set {_sr-skill::*} to {_lore} parsed as "%text%: %text%"
+			set {_sr-skillline} to {_loreline}
+		add 1 to {_loreline}
+
+	if {_l-skill::*} isn't set:
+		set {_l-skill::1} to "餀Skill"
+		set {_l-skill::2} to "No Skill"
+	if {_r-skill::*} isn't set:
+		set {_r-skill::1} to "餁Skill"
+		set {_r-skill::2} to "No Skill"
+	if {_sl-skill::*} isn't set:
+		set {_sl-skill::1} to "餂+餀Skill"
+		set {_sl-skill::2} to "No Skill"
+	if {_sr-skill::*} isn't set:
+		set {_sr-skill::1} to "餂+餁Skill"
+		set {_sr-skill::2} to "No Skill"
+
+	set {_l-use-skill} to {_l-skill::1}
+	set {_r-use-skill} to {_r-skill::1}
+	set {_sl-use-skill} to {_sl-skill::1}
+	set {_sr-use-skill} to {_sr-skill::1}
+	if {_switchid} is 1:
+		if {_confrimid} is 2:
+			set {_cache} to {_r-use-skill}
+			set {_r-use-skill} to {_l-use-skill}
+			set {_l-use-skill} to {_cache}
+		if {_confrimid} is 3:
+			set {_cache} to {_sl-use-skill}
+			set {_sl-use-skill} to {_l-use-skill}
+			set {_l-use-skill} to {_cache}
+		if {_confrimid} is 4:
+			set {_cache} to {_sr-use-skill}
+			set {_sr-use-skill} to {_l-use-skill}
+			set {_l-use-skill} to {_cache}
+	if {_switchid} is 2:
+		if {_confrimid} is 1:
+			set {_cache} to {_l-use-skill}
+			set {_l-use-skill} to {_r-use-skill}
+			set {_r-use-skill} to {_cache}
+		if {_confrimid} is 3:
+			set {_cache} to {_sl-use-skill}
+			set {_sl-use-skill} to {_r-use-skill}
+			set {_r-use-skill} to {_cache}
+		if {_confrimid} is 4:
+			set {_cache} to {_sr-use-skill}
+			set {_sr-use-skill} to {_r-use-skill}
+			set {_r-use-skill} to {_cache}
+	if {_switchid} is 3:
+		if {_confrimid} is 1:
+			set {_cache} to {_l-use-skill}
+			set {_l-use-skill} to {_sl-use-skill}
+			set {_sl-use-skill} to {_cache}
+		if {_confrimid} is 2:
+			set {_cache} to {_r-use-skill}
+			set {_r-use-skill} to {_sl-use-skill}
+			set {_sl-use-skill} to {_cache}
+		if {_confrimid} is 4:
+			set {_cache} to {_sr-use-skill}
+			set {_sr-use-skill} to {_sl-use-skill}
+			set {_sl-use-skill} to {_cache}
+	if {_switchid} is 4:
+		if {_confrimid} is 1:
+			set {_cache} to {_l-use-skill}
+			set {_l-use-skill} to {_sr-use-skill}
+			set {_sr-use-skill} to {_cache}
+		if {_confrimid} is 2:
+			set {_cache} to {_r-use-skill}
+			set {_r-use-skill} to {_sr-use-skill}
+			set {_sr-use-skill} to {_cache}
+		if {_confrimid} is 3:
+			set {_cache} to {_sl-use-skill}
+			set {_sl-use-skill} to {_sr-use-skill}
+			set {_sr-use-skill} to {_cache}
+	set cursor slot of {_player} to air
+	set the line {_l-skillline} of {_tool}'s lore to "&6%{_l-use-skill}%: %{_l-skill::2}%"
+	set the line {_r-skillline} of {_tool}'s lore to "&6%{_r-use-skill}%: %{_r-skill::2}%"
+	set the line {_sl-skillline} of {_tool}'s lore to "&6%{_sl-use-skill}%: %{_sl-skill::2}%"
+	set the line {_sr-skillline} of {_tool}'s lore to "&6%{_sr-use-skill}%: %{_sr-skill::2}%"
+	
+	make {_player} run command "/skill" as op
+
+on rightclick:
+	set {_player} to event-player
+	if {_player}'s tool isn't empty:
+		set {_lore::*} to lore of {_player}'s tool split at "||"
+		loop {_lore::*}:
+			set {_lore} to loop-value
+			set {_lore} to uncoloured {_lore}
+			set {_lore2::*} to {_lore} split at ":"
+			if {_lore2::1} is equal to "餁Skill":
+				set {_r-skill::*} to {_lore} parsed as "%text%: %text%"
+			if {_lore2::1} is equal to "餂+餁Skill":
+				set {_sr-skill::*} to {_lore} parsed as "%text%: %text%"
+
+		if {_r-skill::*} isn't set:
+			set {_r-skill::1} to "餁Skill: "
+			set {_r-skill::2} to "No Skill"		
+		if {_sr-skill::*} isn't set:
+			set {_sr-skill::1} to "餂+餁Skill: "
+			set {_sr-skill::2} to "No Skill"
+		
+		set {_r-skill} to {_r-skill::2}
+		set {_sr-skill} to {_sr-skill::2}
+		
+		if {_r-skill} isn't "No Skill":
+			if {_player} isn't sneaking:
+				if {_r-skill} is "Fire laser":
+					firelaser({_player})
+		if {_sr-skill} isn't "No Skill":
+			if {_player} is sneaking:
+				if {_sr-skill} is "Fire laser":
+					firelaser({_player})
+
+on leftclick:
+	set {_player} to event-player
+	if {_player}'s tool isn't empty:
+		set {_lore::*} to lore of {_player}'s tool split at "||"
+		loop {_lore::*}:
+			set {_lore} to loop-value
+			set {_lore} to uncoloured {_lore}
+			set {_lore2::*} to {_lore} split at ":"
+			if {_lore2::1} is equal to "餀Skill":
+				set {_l-skill::*} to {_lore} parsed as "%text%: %text%"
+			if {_lore2::1} is equal to "餂+餀Skill":
+				set {_sl-skill::*} to {_lore} parsed as "%text%: %text%"
+		
+		if {_l-skill::*} isn't set:
+			set {_l-skill::1} to "餀Skill: "
+			set {_l-skill::2} to "No Skill"
+		if {_sl-skill::*} isn't set:
+			set {_sl-skill::1} to "餂+餀Skill: "
+			set {_sl-skill::2} to "No Skill"
+		
+		set {_l-skill} to {_l-skill::2}
+		set {_sl-skill} to {_sl-skill::2}
+		
+		if {_l-skill} isn't "No Skill":
+			if {_player} isn't sneaking:
+				if {_l-skill} is "Fire laser":
+					firelaser({_player})
+		if {_sl-skill} isn't "No Skill":
+			if {_player} is sneaking:
+				if {_sl-skill} is "Fire laser":
+					firelaser({_player})
+				
+function firelaser(player:Player):
+	make {_player} run command "/drawline flame 20 1 0 0 0 0 0 0 0 false" as op

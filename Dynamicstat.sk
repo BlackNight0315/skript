@@ -1,0 +1,202 @@
+command /dynamicstat update:
+	permission: dynamicstat.use
+	trigger:
+		set {_player} to event-player
+		set {_lore::*} to lore of {_player}'s tool split at "||"
+		loop {_lore::*}:
+			set {_lore} to loop-value
+			set {_lore} to uncoloured {_lore}
+			if {_lore} contains "Damage: ":
+				set {_damage::*} to {_lore} parsed as "%text%: %number% - %number%"
+			else:
+				set {_damage::1} to "Damage: "
+				set {_damage::2} to 0
+				set {_damage::3} to 0
+
+		if {_player}'s boot slot isn't empty:
+			set {_lore::*} to lore of {_player}'s boot split at "||"
+			loop {_lore::*}:
+				set {_lore} to loop-value
+				set {_lore} to uncoloured {_lore}
+				if {_lore} contains "Armor: +":
+					set {_armor::*} to {_lore} parsed as "%text%: +%number%"
+					set {_boot} to {_boot} + {_armor::2}
+				if {_lore} contains "Armor: -":
+					set {_armor::*} to {_lore} parsed as "%text%: -%number%"
+					set {_boot} to {_boot} - {_armor::2}
+		else:
+			set {_boot} to 0
+
+		if {_player}'s legging slot isn't empty:
+			set {_lore::*} to lore of {_player}'s legging split at "||"
+			loop {_lore::*}:
+				set {_lore} to loop-value
+				set {_lore} to uncoloured {_lore}
+				if {_lore} contains "Armor: +":
+					set {_armor::*} to {_lore} parsed as "%text%: +%number%"
+					set {_legging} to {_legging} + {_armor::2}
+				if {_lore} contains "Armor: -":
+					set {_armor::*} to {_lore} parsed as "%text%: -%number%"
+					set {_legging} to {_legging} - {_armor::2}
+		else:
+			set {_legging} to 0
+
+		if {_player}'s chestplate slot isn't empty:
+			set {_lore::*} to lore of {_player}'s chestplate split at "||"
+			loop {_lore::*}:
+				set {_lore} to loop-value
+				set {_lore} to uncoloured {_lore}
+				if {_lore} contains "Armor: +":
+					set {_armor::*} to {_lore} parsed as "%text%: +%number%"
+					set {_chestplate} to {_chestplate} + {_armor::2}
+				if {_lore} contains "Armor: -":
+					set {_armor::*} to {_lore} parsed as "%text%: -%number%"
+					set {_chestplate} to {_chestplate} - {_armor::2}
+		else:
+			set {_chestplate} to 0
+
+		if {_player}'s helmet slot isn't empty:
+			set {_lore::*} to lore of {_player}'s helmet split at "||"
+			loop {_lore::*}:
+				set {_lore} to loop-value
+				set {_lore} to uncoloured {_lore}
+				if {_lore} contains "Armor: +":
+					set {_armor::*} to {_lore} parsed as "%text%: +%number%"
+					set {_helmet} to {_helmet} + {_armor::2}
+				if {_lore} contains "Armor: -":
+					set {_armor::*} to {_lore} parsed as "%text%: -%number%"
+					set {_helmet} to {_helmet} - {_armor::2}
+		else:
+			set {_helmet} to 0
+					
+		set {dynamicstat.%event-player%.min-damage} to {_damage::2}
+		set {dynamicstat.%event-player%.max-damage} to {_damage::3}
+		set {dynamicstat.%event-player%.armor} to {_boot} + {_legging} + {_chestplate} + {_helmet}
+		
+		message "&3- Damage : &c%{dynamicstat.%event-player%.min-damage}% - %{dynamicstat.%event-player%.max-damage}%"
+		message "&3- Armor : &c%{dynamicstat.%event-player%.armor}%"
+
+every 1 seconds:
+	loop all players:
+		set {_player} to loop-value
+		set {_lore::*} to lore of {_player}'s tool split at "||"
+		loop {_lore::*}:
+			set {_lore} to loop-value-2
+			set {_lore} to uncoloured {_lore}
+			if {_lore} contains "Damage: ":
+				set {_damage::*} to {_lore} parsed as "%text%: %number% - %number%"
+			else:
+				set {_damage::1} to "Damage: "
+				set {_damage::2} to 0
+				set {_damage::3} to 0
+
+		if {_player}'s boot slot isn't empty:
+			set {_lore::*} to lore of {_player}'s boot split at "||"
+			loop {_lore::*}:
+				set {_lore} to loop-value-2
+				set {_lore} to uncoloured {_lore}
+				if {_lore} contains "Armor: +":
+					set {_armor::*} to {_lore} parsed as "%text%: +%number%"
+					set {_boot} to {_boot} + {_armor::2}
+				if {_lore} contains "Armor: -":
+					set {_armor::*} to {_lore} parsed as "%text%: -%number%"
+					set {_boot} to {_boot} - {_armor::2}
+		else:
+			set {_boot} to 0
+
+		if {_player}'s legging slot isn't empty:
+			set {_lore::*} to lore of {_player}'s legging split at "||"
+			loop {_lore::*}:
+				set {_lore} to loop-value-2
+				set {_lore} to uncoloured {_lore}
+				if {_lore} contains "Armor: +":
+					set {_armor::*} to {_lore} parsed as "%text%: +%number%"
+					set {_legging} to {_legging} + {_armor::2}
+				if {_lore} contains "Armor: -":
+					set {_armor::*} to {_lore} parsed as "%text%: -%number%"
+					set {_legging} to {_legging} - {_armor::2}
+		else:
+			set {_legging} to 0
+
+		if {_player}'s chestplate slot isn't empty:
+			set {_lore::*} to lore of {_player}'s chestplate split at "||"
+			loop {_lore::*}:
+				set {_lore} to loop-value-2
+				set {_lore} to uncoloured {_lore}
+				if {_lore} contains "Armor: +":
+					set {_armor::*} to {_lore} parsed as "%text%: +%number%"
+					set {_chestplate} to {_chestplate} + {_armor::2}
+				if {_lore} contains "Armor: -":
+					set {_armor::*} to {_lore} parsed as "%text%: -%number%"
+					set {_chestplate} to {_chestplate} - {_armor::2}
+		else:
+			set {_chestplate} to 0
+
+		if {_player}'s helmet slot isn't empty:
+			set {_lore::*} to lore of {_player}'s helmet split at "||"
+			loop {_lore::*}:
+				set {_lore} to loop-value-2
+				set {_lore} to uncoloured {_lore}
+				if {_lore} contains "Armor: +":
+					set {_armor::*} to {_lore} parsed as "%text%: +%number%"
+					set {_helmet} to {_helmet} + {_armor::2}
+				if {_lore} contains "Armor: -":
+					set {_armor::*} to {_lore} parsed as "%text%: -%number%"
+					set {_helmet} to {_helmet} - {_armor::2}
+		else:
+			set {_helmet} to 0
+					
+		set {dynamicstat.%{_player}%.min-damage} to {_damage::2}
+		set {dynamicstat.%{_player}%.max-damage} to {_damage::3}
+		set {dynamicstat.%{_player}%.armor} to {_boot} + {_legging} + {_chestplate} + {_helmet}
+
+On Damage:
+	if attacker is player:
+		if {dynamicstat.%attacker%.min-damage} isn't 0:
+			if {dynamicstat.%attacker%.max-damage} isn't 0:
+				set {_damage} to random integer from {dynamicstat.%attacker%.min-damage} to {dynamicstat.%attacker%.max-damage}
+				if victim isn't player:
+					set the damage to {_damage}
+		else:
+			set {_damage} to the damage
+
+		if victim is player:
+			if {dynamicstat.%victim%.armor} isn't 0:
+				set {_armor} to {dynamicstat.%victim%.armor}
+				set {_damage} to {_damage} - {_armor}
+			set the damage to {_damage}
+
+	if attacker isn't player:
+		if victim is player:
+			if {dynamicstat.%victim%.armor} isn't 0:
+				set {_armor} to {dynamicstat.%victim%.armor}
+				set {_damage} to {_damage} - {_armor}
+			set the damage to {_damage}
+
+	if victim is living entity:
+		if victim isn't armour stand:
+#		set {_name} to "%the names of victim%"
+#		set {_name} to "%uncoloured {_name}%"
+#		if {_name} doesn't contain "▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎" , "▎|" , "|▎" or "❤":
+			wait 1 tick
+			set {_damage} to "&c - %damage%❤"
+			if the damage <= 0:
+				set {_damage} to "&c - 0❤"
+			set {_loc} to location of attacker's head
+			set {_loc2} to location 1.2 right and 0 meter in direction of {_player} from location of {_loc}
+			set {_displayloc_x} to x-coordinate of {_loc2} - x-coordinate of {_loc}
+			set {_displayloc_z} to z-coordinate of {_loc2} - z-coordinate of {_loc}
+			bind hologram {_damage} to victim for 2 seconds offset by {_displayloc_x}, 2.15, {_displayloc_z}
+
+#on inventory click:
+#	if clicked slot type is ARMOR:
+#		armor_block(event-player, {%event-player%.armor-block})
+
+#on Damage:
+#	if attacker and victim is player:
+#		weapon_damage(attacker, {_min-damage}, {_max-damage})
+#		armor_block(victim, {_armor-block})
+#		
+#		set {_min-damage} to {_min-damage} - {_armor-block}
+#		set {_max-damage} to {_max-damage} - {_armor-block}
+#		make attacker damage victim by random number from {_min-damage} to {_max-damage}

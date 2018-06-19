@@ -1,0 +1,7 @@
+on drop:
+	set {_lore::*} to lore of event-item split at "||"
+	loop {_lore::*}:
+		set {_lore} to loop-value
+		set {_lore} to uncoloured {_lore}
+		if {_lore} contains "Bound":
+			cancel the event

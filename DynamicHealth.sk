@@ -1,0 +1,283 @@
+﻿#On Damage:
+#	if attacker is players:
+#		set {_name} to "%the names of victim%"
+#		set {_name} to "%uncoloured {_name}%"
+#		if {_name} doesn't contain "[ |||||" and "||||| ]":
+#			if the health of victim / the max health of victim *100% is between 90% and 100%:
+#				set {_health} to "&6[ &c|||||&6%the health of victim%/%the max health of victim%&c||||&8|&6 ]"
+#			if the health of victim / the max health of victim *100% is between 80% and 90%:
+#				set {_health} to "&6[ &c|||||&6%the health of victim%/%the max health of victim%&c|||&8||&6 ]"
+#			if the health of victim / the max health of victim *100% is between 70% and 80%:
+#				set {_health} to "&6[ &c|||||&6%the health of victim%/%the max health of victim%&c||&8|||&6 ]"
+#			if the health of victim / the max health of victim *100% is between 60% and 70%:
+#				set {_health} to "&6[ &c|||||&6%the health of victim%/%the max health of victim%&c|&8||||&6 ]"
+#			if the health of victim / the max health of victim *100% is between 50% and 60%:
+#				set {_health} to "&6[ &c|||||&6%the health of victim%/%the max health of victim%&c&8|||||&6 ]"
+#			if the health of victim / the max health of victim *100% is between 40% and 50%:
+#				set {_health} to "&6[ &c||||&8|&6%the health of victim%/%the max health of victim%&c&8|||||&6 ]"
+#			if the health of victim / the max health of victim *100% is between 30% and 40%:
+#				set {_health} to "&6[ &c|||&8||&6%the health of victim%/%the max health of victim%&c&8|||||&6 ]"
+#			if the health of victim / the max health of victim *100% is between 20% and 30%:
+#				set {_health} to "&6[ &c||&8|||&6%the health of victim%/%the max health of victim%&c&8|||||&6 ]"
+#			if the health of victim / the max health of victim *100% is between 10% and 20%:
+#				set {_health} to "&6[ &c|&8||||&6%the health of victim%/%the max health of victim%&c&8|||||&6 ]"
+#			if the health of victim / the max health of victim *100% is between 0% and 10%:
+#				set {_health} to "&6[ &8|||||&6%the health of victim%/%the max health of victim%&c&8|||||&6 ]"
+#			bind hologram {_health} to victim for 2 seconds offset by 0, 2.65, 0
+On Damage:
+	if victim is living entity:
+		if victim isn't armour stand:
+#		set {_name} to "%the names of victim%"
+#		set {_name} to "%uncoloured {_name}%"
+#		if {_name} doesn't contain "▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎" , "▎|" , "|▎" or "❤":
+			# wait 1 tick
+			# set {_uuid} to uuid of victim
+			# set {_dynamichealth} to "%{_uuid}% DynamicHealth"
+			# if {dynamichealth.%uuid of victim%} is not set:
+				# add {_uuid} to {dynamichealth_uuid::*}
+			# set {dynamichealth.%uuid of victim%} to 2
+			# set {_health1} to "&6&m▎|    &r&6 %the health of victim% &m    |▎"
+			# if the health of victim / the max health of victim *100% is between 95% and 100%:
+				# set {_health2} to "&6▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎"
+			# if the health of victim / the max health of victim *100% is between 90% and 95%:
+				# set {_health2} to "&6▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎&8▎"
+			# if the health of victim / the max health of victim *100% is between 85% and 90%:
+				# set {_health2} to "&6▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎&8▎▎"
+			# if the health of victim / the max health of victim *100% is between 80% and 85%:
+				# set {_health2} to "&6▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎&8▎▎▎"
+			# if the health of victim / the max health of victim *100% is between 75% and 80%:
+				# set {_health2} to "&6▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎&8▎▎▎▎"
+			# if the health of victim / the max health of victim *100% is between 70% and 75%:
+				# set {_health2} to "&6▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎&8▎▎▎▎▎"
+			# if the health of victim / the max health of victim *100% is between 65% and 70%:
+				# set {_health2} to "&6▎▎▎▎▎▎▎▎▎▎▎▎▎▎&8▎▎▎▎▎▎"
+			# if the health of victim / the max health of victim *100% is between 60% and 65%:
+				# set {_health2} to "&6▎▎▎▎▎▎▎▎▎▎▎▎▎&8▎▎▎▎▎▎▎"
+			# if the health of victim / the max health of victim *100% is between 55% and 60%:
+				# set {_health2} to "&6▎▎▎▎▎▎▎▎▎▎▎▎&8▎▎▎▎▎▎▎▎"
+			# if the health of victim / the max health of victim *100% is between 50% and 55%:
+				# set {_health2} to "&6▎▎▎▎▎▎▎▎▎▎▎&8▎▎▎▎▎▎▎▎▎"
+			# if the health of victim / the max health of victim *100% is between 45% and 50%:
+				# set {_health2} to "&6▎▎▎▎▎▎▎▎▎▎&8▎▎▎▎▎▎▎▎▎▎"
+			# if the health of victim / the max health of victim *100% is between 40% and 45%:
+				# set {_health2} to "&6▎▎▎▎▎▎▎▎▎&8▎▎▎▎▎▎▎▎▎▎▎"
+			# if the health of victim / the max health of victim *100% is between 35% and 40%:
+				# set {_health2} to "&6▎▎▎▎▎▎▎▎&8▎▎▎▎▎▎▎▎▎▎▎▎"
+			# if the health of victim / the max health of victim *100% is between 30% and 35%:
+				# set {_health2} to "&6▎▎▎▎▎▎▎&8▎▎▎▎▎▎▎▎▎▎▎▎▎"
+			# if the health of victim / the max health of victim *100% is between 25% and 30%:
+				# set {_health2} to "&6▎▎▎▎▎▎&8▎▎▎▎▎▎▎▎▎▎▎▎▎▎"
+			# if the health of victim / the max health of victim *100% is between 20% and 25%:
+				# set {_health2} to "&6▎▎▎▎▎&8▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎"
+			# if the health of victim / the max health of victim *100% is between 15% and 20%:
+				# set {_health2} to "&6▎▎▎▎&8▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎"
+			# if the health of victim / the max health of victim *100% is between 10% and 15%:
+				# set {_health2} to "&6▎▎▎&8▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎"
+			# if the health of victim / the max health of victim *100% is between 5% and 10%:
+				# set {_health2} to "&6▎▎&8▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎"
+			# if the health of victim / the max health of victim *100% is between 1% and 5%:
+				# set {_health2} to "&6▎&8▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎"
+			# if the health of victim / the max health of victim *100% is 0%:
+				# set {_health1} to "&6&m▎|    &r&c DEAD &6&m    |▎"
+				# set {_health2} to "&8▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎"
+			set {_health-before} to the health of victim
+			wait 1 tick
+			set {_health-after} to the health of victim
+			set {_damage} to {_health-before} - {_health-after}
+			set {_uuid} to uuid of victim
+			set {_dynamichealth} to "%{_uuid}% DynamicHealth"
+			if {dynamichealth.%uuid of victim%} is not set:
+				add {_uuid} to {dynamichealth_uuid::*}
+			set {dynamichealth.%uuid of victim%} to 2
+			set {_health1} to "&6▎|      &l %the health of victim% &r&6      |▎"
+			if {_damage} / the max health of victim *100% is between 95% and 100%:
+				set {_damage-health} to "▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎"
+				set {_damage-health2} to 20
+			if {_damage} / the max health of victim *100% is between 90% and 95%:
+				set {_damage-health} to "▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎"
+				set {_damage-health2} to 19
+			if {_damage} / the max health of victim *100% is between 85% and 90%:
+				set {_damage-health} to "▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎"
+				set {_damage-health2} to 18
+			if {_damage} / the max health of victim *100% is between 80% and 85%:
+				set {_damage-health} to "▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎"
+				set {_damage-health2} to 17
+			if {_damage} / the max health of victim *100% is between 75% and 80%:
+				set {_damage-health} to "▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎"
+				set {_damage-health2} to 16
+			if {_damage} / the max health of victim *100% is between 70% and 75%:
+				set {_damage-health} to "▎▎▎▎▎▎▎▎▎▎▎▎▎▎▎"
+				set {_damage-health2} to 15
+			if {_damage} / the max health of victim *100% is between 65% and 70%:
+				set {_damage-health} to "▎▎▎▎▎▎▎▎▎▎▎▎▎▎"
+				set {_damage-health2} to 14
+			if {_damage} / the max health of victim *100% is between 60% and 65%:
+				set {_damage-health} to "▎▎▎▎▎▎▎▎▎▎▎▎▎"
+				set {_damage-health2} to 13
+			if {_damage} / the max health of victim *100% is between 55% and 60%:
+				set {_damage-health} to "▎▎▎▎▎▎▎▎▎▎▎▎"
+				set {_damage-health2} to 12
+			if {_damage} / the max health of victim *100% is between 50% and 55%:
+				set {_damage-health} to "▎▎▎▎▎▎▎▎▎▎▎"
+				set {_damage-health2} to 11
+			if {_damage} / the max health of victim *100% is between 45% and 50%:
+				set {_damage-health} to "▎▎▎▎▎▎▎▎▎▎"
+				set {_damage-health2} to 10
+			if {_damage} / the max health of victim *100% is between 40% and 45%:
+				set {_damage-health} to "▎▎▎▎▎▎▎▎▎"
+				set {_damage-health2} to 9
+			if {_damage} / the max health of victim *100% is between 35% and 40%:
+				set {_damage-health} to "▎▎▎▎▎▎▎▎"
+				set {_damage-health2} to 8
+			if {_damage} / the max health of victim *100% is between 30% and 35%:
+				set {_damage-health} to "▎▎▎▎▎▎▎"
+				set {_damage-health2} to 7
+			if {_damage} / the max health of victim *100% is between 25% and 30%:
+				set {_damage-health} to "▎▎▎▎▎▎"
+				set {_damage-health2} to 6
+			if {_damage} / the max health of victim *100% is between 20% and 25%:
+				set {_damage-health} to "▎▎▎▎▎"
+				set {_damage-health2} to 5
+			if {_damage} / the max health of victim *100% is between 15% and 20%:
+				set {_damage-health} to "▎▎▎▎"
+				set {_damage-health2} to 4
+			if {_damage} / the max health of victim *100% is between 10% and 15%:
+				set {_damage-health} to "▎▎▎"
+				set {_damage-health2} to 3
+			if {_damage} / the max health of victim *100% is between 5% and 10%:
+				set {_damage-health} to "▎▎"
+				set {_damage-health2} to 2
+			if {_damage} / the max health of victim *100% is between 1% and 5%:
+				set {_damage-health} to "▎"
+				set {_damage-health2} to 1
+			if {_damage} / the max health of victim *100% is 0%:
+				set {_damage-health} to ""
+				set {_damage-health2} to 0
+
+			if the health of victim / the max health of victim *100% is between 95% and 100%:
+				set {_real-health} to "                    "
+				set {_real-health2} to 20
+			if the health of victim / the max health of victim *100% is between 90% and 95%:
+				set {_real-health} to "                   "
+				set {_real-health2} to 19
+			if the health of victim / the max health of victim *100% is between 85% and 90%:
+				set {_real-health} to "                  "
+				set {_real-health2} to 18
+			if the health of victim / the max health of victim *100% is between 80% and 85%:
+				set {_real-health} to "                 "
+				set {_real-health2} to 17
+			if the health of victim / the max health of victim *100% is between 75% and 80%:
+				set {_real-health} to "                "
+				set {_real-health2} to 16
+			if the health of victim / the max health of victim *100% is between 70% and 75%:
+				set {_real-health} to "               "
+				set {_real-health2} to 15
+			if the health of victim / the max health of victim *100% is between 65% and 70%:
+				set {_real-health} to "              "
+				set {_real-health2} to 14
+			if the health of victim / the max health of victim *100% is between 60% and 65%:
+				set {_real-health} to "             "
+				set {_real-health2} to 13
+			if the health of victim / the max health of victim *100% is between 55% and 60%:
+				set {_real-health} to "            "
+				set {_real-health2} to 12
+			if the health of victim / the max health of victim *100% is between 50% and 55%:
+				set {_real-health} to "           "
+				set {_real-health2} to 11
+			if the health of victim / the max health of victim *100% is between 45% and 50%:
+				set {_real-health} to "          "
+				set {_real-health2} to 10
+			if the health of victim / the max health of victim *100% is between 40% and 45%:
+				set {_real-health} to "         "
+				set {_real-health2} to 9
+			if the health of victim / the max health of victim *100% is between 35% and 40%:
+				set {_real-health} to "        "
+				set {_real-health2} to 8
+			if the health of victim / the max health of victim *100% is between 30% and 35%:
+				set {_real-health} to "       "
+				set {_real-health2} to 7
+			if the health of victim / the max health of victim *100% is between 25% and 30%:
+				set {_real-health} to "      "
+				set {_real-health2} to 6
+			if the health of victim / the max health of victim *100% is between 20% and 25%:
+				set {_real-health} to "     "
+				set {_real-health2} to 5
+			if the health of victim / the max health of victim *100% is between 15% and 20%:
+				set {_real-health} to "    "
+				set {_real-health2} to 4
+			if the health of victim / the max health of victim *100% is between 10% and 15%:
+				set {_real-health} to "   "
+				set {_real-health2} to 3
+			if the health of victim / the max health of victim *100% is between 5% and 10%:
+				set {_real-health} to "  "
+				set {_real-health2} to 2
+			if the health of victim / the max health of victim *100% is between 1% and 5%:
+				set {_real-health} to " "
+				set {_real-health2} to 1
+			if the health of victim / the max health of victim *100% is 0%:
+				set {_health1} to "&6▎|     &c&l DEAD &r&6     |▎"
+				set {_real-health} to ""
+				set {_real-health2} to 0
+			set {_left-health2} to (20 - {_real-health2}) - {_damage-health2}
+			if {_left-health2} >= 20:
+				set {_left-health} to "                    "
+			if {_left-health2} is 19:
+				set {_left-health} to "                   "
+			if {_left-health2} is 18:
+				set {_left-health} to "                  "
+			if {_left-health2} is 17:
+				set {_left-health} to "                 "
+			if {_left-health2} is 16:
+				set {_left-health} to "                "
+			if {_left-health2} is 15:
+				set {_left-health} to "               "
+			if {_left-health2} is 14:
+				set {_left-health} to "              "
+			if {_left-health2} is 13:
+				set {_left-health} to "             "
+			if {_left-health2} is 12:
+				set {_left-health} to "            "
+			if {_left-health2} is 11:
+				set {_left-health} to "           "
+			if {_left-health2} is 10:
+				set {_left-health} to "          "
+			if {_left-health2} is 9:
+				set {_left-health} to "         "
+			if {_left-health2} is 8:
+				set {_left-health} to "        "
+			if {_left-health2} is 7:
+				set {_left-health} to "       "
+			if {_left-health2} is 6:
+				set {_left-health} to "      "
+			if {_left-health2} is 5:
+				set {_left-health} to "     "
+			if {_left-health2} is 4:
+				set {_left-health} to "    "
+			if {_left-health2} is 3:
+				set {_left-health} to "   "
+			if {_left-health2} is 2:
+				set {_left-health} to "  "
+			if {_left-health2} is 1:
+				set {_left-health} to " "
+			if {_left-health2} <= 0:
+				set {_left-health} to ""
+			set {_health2} to "&6&m▎|%{_real-health}%|▎&c%{_damage-health}%&r%{_left-health}%"
+#			bind hologram {_health1} to victim for 2 seconds offset by 0, 2.9, 0
+#			bind hologram {_health2} to victim for 2 seconds offset by 0, 2.65, 0
+			if text in line 1 of hologram object {_dynamichealth} is not set:
+				create bound holo object "%{_health1}%;%{_health2}%" with id {_dynamichealth} to victim offset by 0, 2.9, 0
+			else:
+				edit holo object {_dynamichealth} to "%{_health1}%;%{_health2}%"
+
+every 1 second:
+	loop {dynamichealth_uuid::*}:
+		set {_uuid} to loop-value
+		set {dynamichealth.%{_uuid}%} to {dynamichealth.%{_uuid}%} - 1
+		if {dynamichealth.%{_uuid}%} < 0:
+			delete holo object "%{_uuid}% DynamicHealth"
+			remove {_uuid} from {dynamichealth_uuid::*}
+			delete {dynamichealth.%{_uuid}%}
+
+#command /dynamichealth debug:
+#	trigger:
+#		broadcast "%{dynamichealth_uuid::*}%"

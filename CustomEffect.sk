@@ -1,0 +1,635 @@
+command /drawline <String> <Number> <Number> <Number> <Number> <Number> <Number> <Number> <Number> <Number> <Boolean>:
+	usage: &6/drawline &b<ParticleType> &6<Length> <Amount> <Delay> <Speed> &c<Min-Damage> <Max-Damage> &d<Offset-X> <Offset-Y> <Offset-Z> &7<Modify-Y>
+	permission: customeffect.use
+	trigger:
+		#Get Argument
+		set {_player} to event-player
+		set {_particletype} to argument-1
+		set {_length} to argument-2
+		set {_amount} to argument-3
+		set {_delay} to argument-4
+		set {_speed} to argument-5
+		set {_min-damage} to argument-6
+		set {_max-damage} to argument-7
+		set {_offset-x} to argument-8
+		set {_offset-y} to argument-9
+		set {_offset-z} to argument-10
+		set {_modify-y} to argument-11
+		#Main
+		set {_loc} to location of {_player}'s head
+		loop {_length} times:
+			set {_loc} to location 0.5 meter in direction of {_player} from location of {_loc}
+			if {_modify-y} is true:
+				set y-coordinate of {_loc} to y-coordinate of location of {_player}
+			if block at {_loc} isn't air:
+				stop loop
+			add {_loc} to {_loc::*}
+		loop {_loc::*}:
+			make {_player} run command "/particle %{_particletype}% %x-coordinate of loop-value% %y-coordinate of loop-value% %z-coordinate of loop-value% %{_offset-x}% %{_offset-y}% %{_offset-z}% %{_speed}% %{_amount}% force" as op
+			if {_min-damage} > 0:
+				if {_max-damage} > 0:
+					loop living entities in radius 1.8 around location at loop-value:
+						if loop-entity isn't {_player}:
+							make {_player} damage loop-entity by random number from {_min-damage} to {_max-damage}
+			if {_delay} > 0:
+				wait "%{_delay}% ticks" parsed as timespan
+
+command /drawflickingline <String> <Number> <Number> <Number> <Number> <Number> <Number> <Number> <Number> <Number> <Number> <Number> <Number> <Boolean>:
+	usage: &6/drawflickingline &b<ParticleType> &6<Length> <Amount> <Delay> <Flicker-1> <Flicker-2> <Speed> <FadedSpeed> &c<Min-Damage> <Max-Damage> &d<Offset-X> <Offset-Y> <Offset-Z> &7<Modify-Y>
+	permission: customeffect.use
+	trigger:
+		#Get Argument
+		set {_player} to event-player
+		set {_particletype} to argument-1
+		set {_length} to argument-2
+		set {_amount} to argument-3
+		set {_delay} to argument-4
+		set {_flicker} to argument-5
+		set {_flicker2} to argument-6
+		set {_speed} to argument-7
+		set {_fadedspeed} to argument-8
+		set {_min-damage} to argument-9
+		set {_max-damage} to argument-10
+		set {_offset-x} to argument-11
+		set {_offset-y} to argument-12
+		set {_offset-z} to argument-13
+		set {_modify-y} to argument-14
+		#Main
+		set {_loc} to location of {_player}'s head
+		loop {_length} times:
+			set {_loc} to location 0.5 meter in direction of {_player} from location of {_loc}
+			if {_modify-y} is true:
+				set y-coordinate of {_loc} to y-coordinate of location of {_player}
+			if block at {_loc} isn't air:
+				stop loop
+			add {_loc} to {_loc::*}
+		loop {_flicker} - 1 times:
+			loop {_loc::*}:
+				make {_player} run command "/particle %{_particletype}% %x-coordinate of loop-value-2% %y-coordinate of loop-value-2% %z-coordinate of loop-value-2% %{_offset-x}% %{_offset-y}% %{_offset-z}% %{_speed}% %{_amount}% force" as op
+				if {_min-damage} > 0:
+					if {_max-damage} > 0:
+						loop living entities in radius 1.8 around location at loop-value-2:
+							if loop-entity isn't {_player}:
+								make {_player} damage loop-entity by random number from {_min-damage} to {_max-damage}
+				if {_delay} > 0:
+					wait "%{_delay}% ticks" parsed as timespan
+			wait "%{_flicker2}% ticks" parsed as timespan
+		loop {_loc::*}:
+			make {_player} run command "/particle %{_particletype}% %x-coordinate of loop-value% %y-coordinate of loop-value% %z-coordinate of loop-value% %{_offset-x}% %{_offset-y}% %{_offset-z}% %{_fadedspeed}% %{_amount}% force" as op
+			if {_min-damage} > 0:
+				if {_max-damage} > 0:
+					loop living entities in radius 1.8 around location at loop-value:
+						if loop-entity isn't {_player}:
+							make {_player} damage loop-entity by random number from {_min-damage} to {_max-damage}
+			if {_delay} > 0:
+				wait "%{_delay}% ticks" parsed as timespan
+
+command /drawgravitycurve <String> <Number> <Number> <Number> <Number> <Number> <Number> <Number> <Number> <Number> <Number>:
+	usage: &6/drawgravitycurve &b<ParticleType> &6<Length> <Gravity> <Amount> <Delay> <Speed> &c<Min-Damage> <Max-Damage> &d<Offset-X> <Offset-Y> <Offset-Z>
+	permission: customeffect.use
+	trigger:
+		#Get Argument
+		set {_player} to event-player
+		set {_particletype} to argument-1
+		set {_length} to argument-2
+		set {_gravity} to argument-3
+		set {_amount} to argument-4
+		set {_delay} to argument-5
+		set {_speed} to argument-6
+		set {_min-damage} to argument-7
+		set {_max-damage} to argument-8
+		set {_offset-x} to argument-9
+		set {_offset-y} to argument-10
+		set {_offset-z} to argument-11
+		#Main
+		set {_loc} to location of {_player}'s head
+		loop {_length} times:
+			set {_loc} to location 0.5 meter in direction of {_player} from location of {_loc}
+			set y-coordinate of {_loc} to y-coordinate of {_loc} - {_gravity}
+			set {_gravity} to {_gravity} + 0.025
+			if block at {_loc} isn't air:
+				stop loop
+			add {_loc} to {_loc::*}
+		loop {_loc::*}:
+			make {_player} run command "/particle %{_particletype}% %x-coordinate of loop-value% %y-coordinate of loop-value% %z-coordinate of loop-value% %{_offset-x}% %{_offset-y}% %{_offset-z}% %{_speed}% %{_amount}% force" as op
+			if {_min-damage} > 0:
+				if {_max-damage} > 0:
+					loop living entities in radius 1.8 around location at loop-value:
+						if loop-entity isn't {_player}:
+							make {_player} damage loop-entity by random number from {_min-damage} to {_max-damage}
+			if {_delay} > 0:
+				wait "%{_delay}% ticks" parsed as timespan
+
+command /drawpoint <String> <Number> <Number> <Number>  <Number> <Number> <Number> <Number> <Number> <Boolean>:
+	usage:&6/drawpoint &b<ParticleType> &6<Length> <Amount> <Speed> &c<Min-Damage> <Max-Damage> &d<Offset-X> <Offset-Y> <Offset-Z> &7<Modify-Y>
+	permission: customeffect.use
+	trigger:
+		#Get Argument
+		set {_player} to event-player
+		set {_particletype} to argument-1
+		set {_length} to argument-2
+		set {_amount} to argument-3
+		set {_speed} to argument-4
+		set {_min-damage} to argument-5
+		set {_max-damage} to argument-6
+		set {_offset-x} to argument-7
+		set {_offset-y} to argument-8
+		set {_offset-z} to argument-9
+		set {_modify-y} to argument-10
+		#Main
+		set {_loc} to location of {_player}'s head
+		set {_loc} to location {_length} / 2 meter in direction of {_player} from location of {_loc}
+		if {_modify-y} is true:
+			set y-coordinate of {_loc} to y-coordinate of location of {_player}
+		make {_player} run command "/particle %{_particletype}% %x-coordinate of {_loc}% %y-coordinate of {_loc}% %z-coordinate of {_loc}% %{_offset-x}% %{_offset-y}% %{_offset-z}% %{_speed}% %{_amount}% force" as op
+		if {_min-damage} > 0:
+			if {_max-damage} > 0:
+				loop living entities in radius 1.8 around location at {_loc}:
+					if loop-entity isn't {_player}:
+						make {_player} damage loop-entity by random number from {_min-damage} to {_max-damage}
+
+command /drawvortexcurve <String> <Number> <Number> <Number> <Number> <Number> <Number> <Number> <Number> <Number> <Number> <Number> <Number>:
+	usage: &6/drawvortexcurve &b<ParticleType> &6<Length> <Radius> <Radius-Offset> <Extend> <Amount> <Delay> <Speed> &c<Min-Damage> <Max-Damage> &d<Offset-X> <Offset-Y> <Offset-Z>
+	permission: customeffect.use
+	trigger:
+		#Get Argument
+		set {_player} to event-player
+		set {_particletype} to argument-1
+		set {_length} to argument-2
+		set {_radius} to argument-3
+		set {_radius-offset} to argument-4
+		set {_extend} to argument-5
+		set {_amount} to argument-6
+		set {_delay} to argument-7
+		set {_speed} to argument-8
+		set {_min-damage} to argument-9
+		set {_max-damage} to argument-10
+		set {_offset-x} to argument-11
+		set {_offset-y} to argument-12
+		set {_offset-z} to argument-13
+		#Main
+		set {_loc} to location of {_player}'s head
+		set {_rotation} to 0
+		loop {_length} times:
+			set {_loc} to location 0.5 meter in direction of {_player} from location of {_loc}
+			set {_x-offset} to (cos ({_rotation} / 180) * 3.14159265358979323846 * {_extend}) * {_radius}
+			set {_y-offset} to (sin ({_rotation} / 180) * 3.14159265358979323846 * {_extend}) * {_radius}
+			set {_loc2} to location {_x-offset} left and {_y-offset} above and 0 meter in direction of {_player} from location of {_loc}
+			set {_rotation} to {_rotation} + 25
+			set {_radius} to {_radius} + {_radius-offset}
+			if block at {_loc2} isn't air:
+				stop loop
+			add {_loc2} to {_loc::*}
+		loop {_loc::*}:
+			make {_player} run command "/particle %{_particletype}% %x-coordinate of loop-value% %y-coordinate of loop-value% %z-coordinate of loop-value% %{_offset-x}% %{_offset-y}% %{_offset-z}% %{_speed}% %{_amount}% force" as op
+			if {_min-damage} > 0:
+				if {_max-damage} > 0:
+					loop living entities in radius 1.8 around location at loop-value:
+						if loop-entity isn't {_player}:
+							make {_player} damage loop-entity by random number from {_min-damage} to {_max-damage}
+			if {_delay} > 0:
+				wait "%{_delay}% ticks" parsed as timespan
+
+command /drawwavecurve <String> <Number> <Number> <Number> <Number> <Number> <Number> <Number> <Number> <Number> <Number> <Number> <Number> <String>:
+	usage: &6/drawwavecurve &b<ParticleType> &6<Length> <Radius> <Radius-Offset> <Extend> <Amount> <Delay> <Speed> &c<Min-Damage> <Max-Damage> &d<Offset-X> <Offset-Y> <Offset-Z> &3<Above/Down>
+	permission: customeffect.use
+	trigger:
+		#Get Argument
+		set {_player} to event-player
+		set {_particletype} to argument-1
+		set {_length} to argument-2
+		set {_radius} to argument-3
+		set {_radius-offset} to argument-4
+		set {_amount} to argument-5
+		set {_delay} to argument-6
+		set {_speed} to argument-7
+		set {_min-damage} to argument-8
+		set {_max-damage} to argument-9
+		set {_offset-x} to argument-10
+		set {_offset-y} to argument-11
+		set {_offset-z} to argument-12
+		set {_above/down} to argument-13
+		#Main
+		set {_loc} to location of {_player}'s head
+		set {_rotation} to 0
+		loop {_length} times:
+			set {_loc} to location 0.5 meter in direction of {_player} from location of {_loc}
+			set {_y-offset} to (cos ({_rotation} / 180) * 3.14159265358979323846 * {_extend}) * {_radius}
+			if {_above/down} is "above":
+				set {_loc2} to location {_y-offset} above and 0 meter in direction of {_player} from location of {_loc}
+			if {_above/down} is "down":
+				set {_loc2} to location {_y-offset} down and 0 meter in direction of {_player} from location of {_loc}
+			set {_rotation} to {_rotation} + 25
+			set {_radius} to {_radius} + {_radius-offset}
+			if block at {_loc2} isn't air:
+				stop loop
+			add {_loc2} to {_loc::*}
+		loop {_loc::*}:
+			make {_player} run command "/particle %{_particletype}% %x-coordinate of loop-value% %y-coordinate of loop-value% %z-coordinate of loop-value% %{_offset-x}% %{_offset-y}% %{_offset-z}% %{_speed}% %{_amount}% force" as op
+			if {_min-damage} > 0:
+				if {_max-damage} > 0:
+					loop living entities in radius 1.8 around location at loop-value:
+						if loop-entity isn't {_player}:
+							make {_player} damage loop-entity by random number from {_min-damage} to {_max-damage}
+			if {_delay} > 0:
+				wait "%{_delay}% ticks" parsed as timespan
+
+command /drawburstline <String> <Number> <Number> <Number> <Number> <Number> <Number> <Number> <Number> <Number> <Number> <Boolean>:
+	usage: &6/drawburstline &b<ParticleType> &6<Length> <Length2> <Amount> <Delay> <Speed> &c<Min-Damage> <Max-Damage> &d<Offset-X> <Offset-Y> <Offset-Z> &7<Modify-Y>
+	permission: customeffect.use
+	trigger:
+		#Get Argument
+		set {_player} to event-player
+		set {_particletype} to argument-1
+		set {_length} to argument-2
+		set {_length2} to argument-3
+		set {_amount} to argument-4
+		set {_delay} to argument-5
+		set {_speed} to argument-6
+		set {_min-damage} to argument-7
+		set {_max-damage} to argument-8
+		set {_offset-x} to argument-9
+		set {_offset-y} to argument-10
+		set {_offset-z} to argument-11
+		set {_modify-y} to argument-12
+		#Main
+		set {_loc} to location of {_player}'s head
+		loop {_length} times:
+			set {_loc} to location 0.5 meter in direction of {_player} from location of {_loc}
+			set {_rotation} to random number between 0 and 360
+			set {_x-pos} to cos ({_rotation} / 180) * 3.14159265358979323846
+			set {_z-pos} to sin ({_rotation} / 180) * 3.14159265358979323846
+			set {_loc2} to {_loc}
+			if {_modify-y} is true:
+				set y-coordinate of {_loc} to y-coordinate of location of {_player}
+			loop {_length2} times:
+				set x-coordinate of {_loc2} to x-coordinate of {_loc2} + {_x-pos} / 10
+				set z-coordinate of {_loc2} to z-coordinate of {_loc2} + {_z-pos} / 10
+				set y-coordinate of {_loc2} to y-coordinate of {_loc2} + 0.5
+				if block at {_loc2} isn't air:
+					stop loop
+				add {_loc2} to {_loc::*}
+		loop {_loc::*}:
+			make {_player} run command "/particle %{_particletype}% %x-coordinate of loop-value% %y-coordinate of loop-value% %z-coordinate of loop-value% %{_offset-x}% %{_offset-y}% %{_offset-z}% %{_speed}% %{_amount}% force" as op
+			if {_min-damage} > 0:
+				if {_max-damage} > 0:
+					loop living entities in radius 1.8 around location at loop-value:
+						if loop-entity isn't {_player}:
+							make {_player} damage loop-entity by random number from {_min-damage} to {_max-damage}
+			if {_delay} > 0:
+				wait "%{_delay}% ticks" parsed as timespan
+
+command /drawbounceline <String> <Number> <Number> <Number> <Number> <Number> <Number> <Number> <Number> <Number> <Boolean>:
+	usage:&6/drawbounceline &b<ParticleType> &6<Length> <Amount> <Delay> <Speed> &c<Min-Damage> <Max-Damage> &d<Offset-X> <Offset-Y> <Offset-Z> &7<Modify-Y>
+	permission: customeffect.use
+	trigger:
+		#Get Argument
+		set {_player} to event-player
+		set {_particletype} to argument-1
+		set {_length} to argument-2
+		set {_amount} to argument-3
+		set {_delay} to argument-4
+		set {_speed} to argument-5
+		set {_min-damage} to argument-6
+		set {_max-damage} to argument-7
+		set {_offset-x} to argument-8
+		set {_offset-y} to argument-9
+		set {_offset-z} to argument-10
+		set {_modify-y} to argument-11
+		#Main
+		set {_loc} to location of {_player}'s head
+		set {_pitch} to ((0 - {_player}'s pitch) * 3.14159265358979323846) / 180
+		set {_yaw} to ((0 - {_player}'s yaw) * 3.14159265358979323846) / 180
+		set {_x-pos} to 0.5 * (cos {_pitch}) * (sin {_yaw})
+		set {_z-pos} to 0.5 * (cos {_pitch}) * (cos {_yaw})
+		set {_y-pos} to 0.5 * (sin {_pitch})
+		loop {_length} times:
+			if {_x-pos} > 0:
+				if block at location 0.5 east {_loc} isn't air:
+					set {_x-pos} to 0 - {_x-pos}
+			if {_x-pos} < 0:
+				if block at location 0.5 west {_loc} isn't air:
+					set {_x-pos} to 0 - {_x-pos}
+			if {_y-pos} > 0:
+				if block at location 0.5 above {_loc} isn't air:
+					set {_y-pos} to 0 - {_y-pos}
+			if {_y-pos} < 0:
+				if block at location 0.5 below {_loc} isn't air:
+					set {_y-pos} to 0 - {_y-pos}
+			if {_z-pos} > 0:
+				if block at location 0.5 south {_loc} isn't air:
+					set {_z-pos} to 0 - {_z-pos}
+			if {_z-pos} < 0:
+				if block at location 0.5 north {_loc} isn't air:
+					set {_z-pos} to 0 - {_z-pos}
+			set x-coordinate of {_loc} to x-coordinate of {_loc} + {_x-pos}
+			set y-coordinate of {_loc} to y-coordinate of {_loc} + {_y-pos}
+			set z-coordinate of {_loc} to z-coordinate of {_loc} + {_z-pos}
+			if {_modify-y} is true:
+				set y-coordinate of {_loc} to y-coordinate of location of {_player}
+			if block at {_loc} is air:
+				add {_loc} to {_loc::*}
+		loop {_loc::*}:
+			make {_player} run command "/particle %{_particletype}% %x-coordinate of loop-value% %y-coordinate of loop-value% %z-coordinate of loop-value% %{_offset-x}% %{_offset-y}% %{_offset-z}% %{_speed}% %{_amount}% force" as op
+			if {_min-damage} > 0:
+				if {_max-damage} > 0:
+					loop living entities in radius 1.8 around location at loop-value:
+						if loop-entity isn't {_player}:
+							make {_player} damage loop-entity by random number from {_min-damage} to {_max-damage}
+			if {_delay} > 0:
+				wait "%{_delay}% ticks" parsed as timespan
+
+command /drawtornado <String> <Number> <Number> <Number> <Number> <Number> <Number> <Number> <Number> <Number> <Number> <Number> <Number> <Number>:
+	usage:&6/drawbounceline &b<ParticleType> &6<Min-Radius> <Max-Radius> <Radius-Offset> <Height> <Height-Offset> <Amount> <Delay> <Speed> &c<Min-Damage> <Max-Damage> &d<Offset-X> <Offset-Y> <Offset-Z>
+	permission: customeffect.use
+	trigger:
+		#Get Argument
+		set {_player} to event-player
+		set {_particletype} to argument-1
+		set {_min-radius} to argument-2
+		set {_max-radius} to argument-3
+		set {_radius-offset} to argument-4
+		set {_height} to argument-5
+		set {_height-offset} to argument-6
+		set {_amount} to argument-7
+		set {_delay} to argument-8
+		set {_speed} to argument-9
+		set {_min-damage} to argument-10
+		set {_max-damage} to argument-11
+		set {_offset-x} to argument-12
+		set {_offset-y} to argument-13
+		set {_offset-z} to argument-14
+		#Main
+		if {_radius-offset} > 0:
+			message "&cERROR! Can't set Radius-Offset larger than 0" to event-player
+			stop trigger
+		if {_min-radius} > {_max-radius}:
+			message "&cERROR! &cCan't set Min-Radius larger than Max-Radius" to event-player
+			stop trigger
+		if {_min-radius} <= 0:
+			message "&cERROR! &cCan't set Min-Radius smaller than 0" to event-player
+			stop trigger
+		if {_max-radius} <= 0:
+			message "&cERROR! &cCan't set Max-Radius smaller than 0" to event-player
+			stop trigger
+		set {_loc} to location of {_player}
+		set {_loc-cahce} to {_loc}
+		set {_rotation} to 0
+		set {_rotation2} to 0
+		set {_max-radius-cache} to {_max-radius}
+		while {_rotation2} <= 360:
+			while {_max-radius} > {_min-radius}:
+				set {_x-pos} to cos ({_rotation} / 180) * 3.14159265358979323846
+				set {_z-pos} to sin ({_rotation} / 180) * 3.14159265358979323846
+				set {_x-pos} to {_x-pos} * {_max-radius}
+				set {_z-pos} to {_z-pos} * {_max-radius}
+				set {_rotation} to {_rotation} + 10
+				set {_max-radius} to {_max-radius} + {_radius-offset}
+				set x-coordinate of {_loc} to x-coordinate of {_loc} + {_x-pos}
+				set y-coordinate of {_loc} to y-coordinate of {_loc} + {_height}
+				set z-coordinate of {_loc} to z-coordinate of {_loc} + {_z-pos}
+				set {_height} to {_height} + {_height-offset}
+				if block at {_loc} is air:
+					add {_loc} to {_loc::*}
+				set {_loc} to {_loc-cahce}
+			set {_max-radius} to {_max-radius-cache}
+			set {_rotation} to {_rotation2}
+			set {_rotation2} to {_rotation2} + 60
+		loop {_loc::*}:
+			make {_player} run command "/particle %{_particletype}% %x-coordinate of loop-value% %y-coordinate of loop-value% %z-coordinate of loop-value% %{_offset-x}% %{_offset-y}% %{_offset-z}% %{_speed}% %{_amount}% force" as op
+			if {_min-damage} > 0:
+				if {_max-damage} > 0:
+					loop living entities in radius 1.8 around location at loop-value:
+						if loop-entity isn't {_player}:
+							make {_player} damage loop-entity by random number from {_min-damage} to {_max-damage}
+			if {_delay} > 0:
+				wait "%{_delay}% ticks" parsed as timespan
+
+command /drawcircle <String> <Number> <Number> <Number> <Number> <Number> <Number> <Number> <Number> <Number> <Number> <Number> <Number> <Number> <Number>:
+	usage:&6/drawcircle &b<ParticleType> &6<Radius> <Radius-Offset> <Height> <Height-Offset> <Angle> <Count> <Amount> <Delay> <Speed> &c<Min-Damage> <Max-Damage> &d<Offset-X> <Offset-Y> <Offset-Z>
+	permission: customeffect.use
+	trigger:
+		#Get Argument
+		set {_player} to event-player
+		set {_particletype} to argument-1
+		set {_radius} to argument-2
+		set {_radius-offset} to argument-3
+		set {_height} to argument-4
+		set {_height-offset} to argument-5
+		set {_angle} to argument-6
+		set {_count} to argument-7
+		set {_amount} to argument-8
+		set {_delay} to argument-9
+		set {_speed} to argument-10
+		set {_min-damage} to argument-11
+		set {_max-damage} to argument-12
+		set {_offset-x} to argument-13
+		set {_offset-y} to argument-14
+		set {_offset-z} to argument-15
+		#Main
+		if {_angle} <= 0:
+			message "&cERROR! Can't set Angle smaller than 0" to event-player
+			stop trigger
+		if {_count} <= 0:
+			message "&cERROR! Can't set Count smaller than 0" to event-player
+			stop trigger
+		if {_radius} <= 0:
+			message "&cERROR! Can't set Radius smaller than 0" to event-player
+			stop trigger
+		if {_radius-offset} > 0:
+			message "&cERROR! Can't set Radius-Offset larger than 0" to event-player
+			stop trigger
+		set {_loc} to location of {_player}
+		set {_loc-cahce} to {_loc}
+		set {_rotation} to 0
+		set {_max-radius} to {_radius}
+		set {_min-radius} to 0 - {_radius}
+		while {_rotation} <= 360 * {_count}:
+			set {_x-pos} to (cos ({_rotation} / 180) * 3.14159265358979323846) * {_radius}
+			set {_z-pos} to (sin ({_rotation} / 180) * 3.14159265358979323846) * {_radius}
+			set x-coordinate of {_loc} to x-coordinate of {_loc} + {_x-pos}
+			set y-coordinate of {_loc} to y-coordinate of {_loc} + {_height}
+			set z-coordinate of {_loc} to z-coordinate of {_loc} + {_z-pos}
+			set {_height} to {_height} + {_height-offset}
+			set {_radius} to {_radius} + {_radius-offset}
+			if {_radius} >= {_max-radius}:
+				set {_radius-offset} to 0 - {_radius-offset}
+			if {_radius} <= {_min-radius}:
+				set {_radius-offset} to 0 - {_radius-offset}
+			set {_rotation} to {_rotation} + {_angle}
+			if block at {_loc} is air:
+				add {_loc} to {_loc::*}
+			set {_loc} to {_loc-cahce}
+		loop {_loc::*}:
+			make {_player} run command "/particle %{_particletype}% %x-coordinate of loop-value% %y-coordinate of loop-value% %z-coordinate of loop-value% %{_offset-x}% %{_offset-y}% %{_offset-z}% %{_speed}% %{_amount}% force" as op
+			if {_min-damage} > 0:
+				if {_max-damage} > 0:
+					loop living entities in radius 1.8 around location at loop-value:
+						if loop-entity isn't {_player}:
+							make {_player} damage loop-entity by random number from {_min-damage} to {_max-damage}
+			if {_delay} > 0:
+				wait "%{_delay}% ticks" parsed as timespan
+
+command /drawball <String> <Number> <Number> <Number> <Number> <Number> <Number> <Number> <Number> <Number> <Number> <Number>:
+	usage:&6/drawball &b<ParticleType> &6<Radius> <Radius-Offset> <Angle> <Amount> <Delay> <Speed> &c<Min-Damage> <Max-Damage> &d<Offset-X> <Offset-Y> <Offset-Z>
+	permission: customeffect.use
+	trigger:
+		#Get Argument
+		set {_player} to event-player
+		set {_particletype} to argument-1
+		set {_radius} to argument-2
+		set {_radius-offset} to argument-3
+		set {_angle} to argument-4
+		set {_amount} to argument-5
+		set {_delay} to argument-6
+		set {_speed} to argument-7
+		set {_min-damage} to argument-8
+		set {_max-damage} to argument-9
+		set {_offset-x} to argument-10
+		set {_offset-y} to argument-11
+		set {_offset-z} to argument-12
+		#Main
+		if {_angle} <= 0:
+			message "&cERROR! Can't set Angle smaller than 0" to event-player
+			stop trigger
+		if {_radius} <= 0:
+			message "&cERROR! Can't set Radius smaller than 0" to event-player
+			stop trigger
+		if {_radius-offset} > 0:
+			message "&cERROR! Can't set Radius-Offset larger than 0" to event-player
+			stop trigger
+		set {_loc} to location of {_player}
+		set {_loc-cahce} to {_loc}
+		set {_pitch} to 90
+		set {_yaw} to 0
+		set {_max-radius} to {_radius}
+		set {_min-radius} to 0 - {_radius}
+		while {_pitch} >= -90:
+			while {_yaw} <= 360:
+				set {_pitch2} to ({_pitch} * 3.14159265358979323846) / 180
+				set {_yaw2} to ({_yaw} * 3.14159265358979323846) / 180
+				set {_x-pos} to (cos {_pitch2}) * (sin {_yaw2}) * {_radius}
+				set {_z-pos} to (cos {_pitch2}) * (cos {_yaw2}) * {_radius}
+				set {_y-pos} to (sin {_pitch2}) * {_radius}
+				set x-coordinate of {_loc} to x-coordinate of {_loc} + {_x-pos}
+				set y-coordinate of {_loc} to y-coordinate of {_loc} + {_y-pos}
+				set z-coordinate of {_loc} to z-coordinate of {_loc} + {_z-pos}
+				set {_radius} to {_radius} + {_radius-offset}
+				if {_radius} >= {_max-radius}:
+					set {_radius-offset} to 0 - {_radius-offset}
+				if {_radius} <= {_min-radius}:
+					set {_radius-offset} to 0 - {_radius-offset}
+				set {_yaw} to {_yaw} + {_angle}
+				if block at {_loc} is air:
+					if {_loc} is not {_loc2}:
+						add {_loc} to {_loc::*}
+				set {_loc2} to {_loc}
+				set {_loc} to {_loc-cahce}
+			set {_yaw} to 0
+			set {_pitch} to {_pitch} - {_angle}
+		loop {_loc::*}:
+			make {_player} run command "/particle %{_particletype}% %x-coordinate of loop-value% %y-coordinate of loop-value% %z-coordinate of loop-value% %{_offset-x}% %{_offset-y}% %{_offset-z}% %{_speed}% %{_amount}% force" as op
+			if {_min-damage} > 0:
+				if {_max-damage} > 0:
+					loop living entities in radius 1.8 around location at loop-value:
+						if loop-entity isn't {_player}:
+							make {_player} damage loop-entity by random number from {_min-damage} to {_max-damage}
+			if {_delay} > 0:
+				wait "%{_delay}% ticks" parsed as timespan
+
+command /drawtrackingline <String> <Number> <Number> <Number> <Number> <Number> <Number> <Number> <Number> <Number> <Number> <Number>:
+	usage:&6/drawtrackingline &b<ParticleType> &6<Length> <Max-Trackingangle> <Trackingradius> <Amount> <Delay> <Speed> &c<Min-Damage> <Max-Damage> &d<Offset-X> <Offset-Y> <Offset-Z>
+	permission: customeffect.use
+	trigger:
+		#Get Argument
+		set {_player} to event-player
+		set {_particletype} to argument-1
+		set {_length} to argument-2
+		set {_max-trackingangle} to argument-3
+		set {_trackingradius} to argument-4
+		set {_amount} to argument-5
+		set {_delay} to argument-6
+		set {_speed} to argument-7
+		set {_min-damage} to argument-8
+		set {_max-damage} to argument-9
+		set {_offset-x} to argument-10
+		set {_offset-y} to argument-11
+		set {_offset-z} to argument-12
+		#Main
+		set {_loc} to location of {_player}'s head
+		set {_p-pitch} to {_player}'s pitch
+		set {_p-yaw} to {_player}'s yaw
+		set {_pitch} to ((0 - {_p-pitch}) * 3.14159265358979323846) / 180
+		set {_yaw} to ((0 - {_p-yaw}) * 3.14159265358979323846) / 180
+		set {_x-pos} to 0.5 * (cos {_pitch}) * (sin {_yaw})
+		set {_z-pos} to 0.5 * (cos {_pitch}) * (cos {_yaw})
+		set {_y-pos} to 0.5 * (sin {_pitch})
+		set {_min-trackingangle} to 0 - {_max-trackingangle}
+		loop {_length} times:
+			set {_length2} to {_length2} + 1
+			set x-coordinate of {_loc} to x-coordinate of {_loc} + {_x-pos}
+			set y-coordinate of {_loc} to y-coordinate of {_loc} + {_y-pos}
+			set z-coordinate of {_loc} to z-coordinate of {_loc} + {_z-pos}
+			loop living entities in radius {_trackingradius} around location at {_loc}:
+				if loop-entity isn't {_player}:
+					set {_target} to loop-entity
+					stop loop
+			if {_target} is set:
+				stop loop
+				set {_length} to {_length} - {_length2}
+			if block at {_loc} isn't air:
+				stop loop
+				set {_length} to {_length} - {_length2}
+			add {_loc} to {_loc::*}
+		loop {_loc::*}:
+			make {_player} run command "/particle %{_particletype}% %x-coordinate of loop-value% %y-coordinate of loop-value% %z-coordinate of loop-value% %{_offset-x}% %{_offset-y}% %{_offset-z}% %{_speed}% %{_amount}% force" as op
+			if {_min-damage} > 0:
+				if {_max-damage} > 0:
+					loop living entities in radius 1.8 around location at loop-value:
+						if loop-entity isn't {_player}:
+							make {_player} damage loop-entity by random number from {_min-damage} to {_max-damage}
+			if {_delay} > 0:
+				wait "%{_delay}% ticks" parsed as timespan
+		loop {_length} times:
+			set {_targetloc} to location of {_target}
+			set {_distance-x} to x-coordinate of {_targetloc} - x-coordinate of {_loc}
+			set {_distance-y} to y-coordinate of {_targetloc} - y-coordinate of {_loc}
+			set {_distance-z} to z-coordinate of {_targetloc} - z-coordinate of {_loc} 
+			set {_yaw2} to (arc tan ({_distance-x} / {_distance-z})) * 180 / 3.14159265358979323846
+			set {_pitch2} to (arc tan ({_distance-y} / (square root of ({_distance-x} * {_distance-x} + {_distance-z} * {_distance-z})))) * 180 / 3.14159265358979323846
+			if {_distance-x} > 0:
+				if {_distance-z} < 0:
+					set {_yaw2} to {_yaw2} + 180
+			if {_distance-x} < 0:
+				if {_distance-z} < 0:
+					set {_yaw2} to {_yaw2} + 180
+			set {_o-pitch} to {_pitch2} - {_p-pitch}
+			set {_o-yaw} to {_yaw2} - {_p-yaw}
+			if {_o-yaw} > {_max-trackingangle}:
+				set {_o-yaw} to {_max-trackingangle}
+			if {_o-yaw} < {_min-trackingangle}:
+				set {_o-yaw} to {_min-trackingangle}
+			if {_o-pitch} > {_max-trackingangle}:
+				set {_o-pitch} to {_max-trackingangle}
+			if {_o-pitch} < {_min-trackingangle}:
+				set {_o-pitch} to {_min-trackingangle}
+			set {_p-pitch} to {_p-pitch} + {_o-pitch}
+			set {_p-yaw} to {_p-yaw} + {_o-yaw}
+			set {_pitch} to ({_p-pitch} * 3.14159265358979323846) / 180
+			set {_yaw} to ({_p-yaw} * 3.14159265358979323846) / 180
+			set {_x-pos} to 0.5 * (cos {_pitch}) * (sin {_yaw})
+			set {_z-pos} to 0.5 * (cos {_pitch}) * (cos {_yaw})
+			set {_y-pos} to 0.5 * (sin {_pitch})
+			set x-coordinate of {_loc} to x-coordinate of {_loc} + {_x-pos}
+			set y-coordinate of {_loc} to y-coordinate of {_loc} + {_y-pos}
+			set z-coordinate of {_loc} to z-coordinate of {_loc} + {_z-pos}
+			make {_player} run command "/particle %{_particletype}% %x-coordinate of {_loc}% %y-coordinate of {_loc}% %z-coordinate of {_loc}% %{_offset-x}% %{_offset-y}% %{_offset-z}% %{_speed}% %{_amount}% force" as op
+			if {_min-damage} > 0:
+				if {_max-damage} > 0:
+					loop living entities in radius 1.8 around location at {_loc}:
+						if loop-entity isn't {_player}:
+							make {_player} damage loop-entity by random number from {_min-damage} to {_max-damage}
+			if {_delay} > 0:
+				wait "%{_delay}% ticks" parsed as timespan
+			if block at {_loc} isn't air:
+				stop loop

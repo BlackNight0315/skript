@@ -1,0 +1,20 @@
+command /itemchanger <String> <String>:
+	usage: &6/itemchanger <name|lore-?|removelore-?>: text
+	permission: itemchanger.use
+	trigger:
+		if argument-1 contains "name":
+			set {_changed} to argument-2
+			set {_changed} to coloured {_changed}
+			set the name of player's tool to "%{_changed}%"
+		if argument-1 contains "lore-":
+			set {_loreline::*} to argument-1 split at "-"
+			replace ":" in {_loreline::2} with ""
+			set {_loreline} to {_loreline::2} parsed as number
+			set {_changed} to argument-2
+			set {_changed} to coloured {_changed}
+			set the line {_loreline} of player's tool's lore to "%{_changed}%"
+		if argument-1 contains "removelore-":
+			set {_loreline::*} to argument-1 split at "-"
+			replace ":" in {_loreline::2} with ""
+			set {_loreline} to {_loreline::2} parsed as number
+			delete the line {_loreline} of player's tool's lore
