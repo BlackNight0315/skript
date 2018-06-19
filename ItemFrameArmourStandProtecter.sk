@@ -9,3 +9,7 @@ on damage of a item frame:
 on right click on a armour stand:
 	if event-player don't have the permission "itemframeprotecter.admin":
 		cancel the event
+
+on damage of a armour stand:
+	if event-player don't have the permission "itemframeprotecter.admin":
+		cancel the event
