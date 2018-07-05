@@ -1,0 +1,20 @@
+on sneak toggle:
+	player is sneaking
+	set {_loc1} to event-player's location
+	set {_max} to 0.8
+	if block at location 0.1 below {_loc1} isn't air:
+		wait 1 tick
+		set {_loc2} to event-player's location
+		set {_v} to vector between {_loc1} and {_loc2}
+		set y of {_v} to 0.1
+		set x of {_v} to 5 * x of {_v}
+		set z of {_v} to 5 * z of {_v}
+		if x of {_v} > {_max}:
+			set x of {_v} to {_max}
+		if x of {_v} < (0 - {_max}):
+			set x of {_v} to (0 - {_max})
+		if z of {_v} > {_max}:
+			set z of {_v} to {_max}
+		if z of {_v} < (0 - {_max}):
+			set z of {_v} to (0 - {_max})
+		set event-player's velocity to {_v}
